@@ -1,7 +1,44 @@
 The machine module: 
+***
 
-```
 import machine
-machine.freq()          # get the current frequency of the CPU
-machine.freq(240000000) # set the CPU frequency to 240 MHz
-```
+machine.freq()              # get the current frequency of the CPU
+machine.freq(240000000)     # set the CPU frequency to 240 MHz
+
+
+Delay & Timing:
+***
+
+import rp2
+import time
+
+time.sleep(1)                                    # sleep for 1 second
+time.sleep_ms(500)                               # sleep for 500 milliseconds
+time.sleep_us(10)                                # sleep for 10 microseconds
+start = time.ticks_ms()                          # get millisecond counter
+delta = time.ticks_diff(time.ticks_ms(), start)  # compute time difference
+
+Timers:
+***
+
+from machine import Timer
+
+tim = Timer(period=5000, mode=Timer.ONE_SHOT, callback=lambda t:print(1))  # ONE_SHOT pulse
+tim.init(period=2000, mode=Timer.PERIODIC, callback=lambda t:print(2))     # PERIODIC pulse
+
+Pins & GPIO:
+***
+
+from machine import Pin
+
+p0 = Pin(0, Pin.OUT)              # create output pin on GPIO0
+p0.on()                           # set pin to "on" (high) level
+p0.off()                          # set pin to "off" (low) level
+p0.value(1)                       # set pin to on/high
+
+p2 = Pin(2, Pin.IN)               # create input pin on GPIO2
+print(p2.value())                 # get value, 0 or 1
+
+p4 = Pin(4, Pin.IN, Pin.PULL_UP)  # enable internal pull-up resistor
+p5 = Pin(5, Pin.OUT, value=1)     # set pin high on creation
+
